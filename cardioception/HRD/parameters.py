@@ -215,6 +215,8 @@ def getParameters(
     parameters["nFinger"] = None
     parameters["signal_df"] = pd.DataFrame([])  # Physiological recording
     parameters["results_df"] = pd.DataFrame([])  # Behavioral results
+    parameters["restPeriod"] = True
+    parameters["restLength"] = 30
 
     # Set default path /Results/ 'Subject ID' /
     parameters["participant"] = participant

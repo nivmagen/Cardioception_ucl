@@ -36,6 +36,10 @@ def run(
     if runTutorial is True:
         tutorial(parameters)
 
+    # Rest
+    if parameters["restPeriod"] is True:
+        rest(parameters, duration=parameters["restLength"])
+
     for nTrial, modality, trialType in zip(
         range(parameters["nTrials"]),
         parameters["Modality"],
@@ -1337,4 +1341,40 @@ def confidenceRatingTask(
     ratingEndTrigger = time.time()
     parameters["win"].flip()
 
-    return confidence, confidenceRT, ratingProvided, ratingEndTrigger
+    return confidence, confidenceRT, ratingProvided,
+
+
+def rest(parameters: dict, duration: float = 300.0):
+    """Run a resting state period for heart rate variability before running the Heart
+    Beat Counting Task.
+
+    Parameters
+    ----------
+    parameters : dict
+        Task parameters.
+    duration : float
+        Duration or the recording (seconds).
+
+    """
+
+    from psychopy import visual
+
+    # Show the resting state instructions
+    messageStart = visual.TextStim(
+        parameters["win"],
+        height=parameters["textSize"],
+        pos=(0.0, 0.2),
+        text=("Calibrating... Please sit quietly" " until the end of the recording."),
+    )
+    messageStart.draw()
+    parameters["restLogo"].draw()
+    parameters["win"].flip()
+
+    # Record PPG signal
+    parameters["oxiTask"].setup()
+    parameters["oxiTask"].read(duration=duration)
+
+    # Save recording
+    parameters["oxiTask"].save(
+        parameters["resultPath"] + "/" + parameters["participant"] + "_Rest"
+    )
