@@ -32,13 +32,15 @@ def run(
     # Initialization of the Pulse Oximeter
     parameters["oxiTask"].setup().read(duration=1)
 
+    # Rest
+    if parameters["restPeriod"] is True:
+        rest(parameters, duration=parameters["restLength"])
+
     # Show tutorial and training trials
     if runTutorial is True:
         tutorial(parameters)
 
-    # Rest
-    if parameters["restPeriod"] is True:
-        rest(parameters, duration=parameters["restLength"])
+
 
     for nTrial, modality, trialType in zip(
         range(parameters["nTrials"]),

@@ -414,6 +414,14 @@ def getParameters(
     )
     parameters["win"].mouseVisible = False
 
+    parameters["restLogo"] = visual.ImageStim(
+        win=parameters["win"],
+        units="height",
+        image=pkg_resources.resource_filename(__name__, "Images/rest.png"),
+        pos=(0.0, -0.2),
+    )
+    parameters["restLogo"].size *= 0.15
+
     ###############
     # Image loading
     ###############
